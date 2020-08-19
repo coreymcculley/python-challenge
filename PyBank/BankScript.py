@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 #load up database
 bankcsvpath = os.path.join( 'Resources', 'budget_data.csv')
-#initialize variable
+#initialize variables
 dates=[]
 profit=[]
 average_profit=0
@@ -30,7 +30,6 @@ d1=datetime.strptime(dates[0],'%b-%Y')
 d2=datetime.strptime(dates[len(dates)-1],'%b-%Y')
 dt=relativedelta(d2,d1)
 dmonth=dt.months+dt.years*12+1
-#print(dmonth)
 
 #Calculate Profit total and average change
 pro1=int(profit[0])
@@ -44,7 +43,7 @@ for i in range(1,length-1):
     count+=1
 average_profit=round(sum(dprofit)/(len(dprofit)+1),2)
 
-#Find max and min months and profit
+#Find max and min months and profit (+2 for losing a row for each the header and the delta profit)
 for i in range(1,len(dprofit)-1):
     max_pro=max(dprofit)
     if dprofit[i] == max_pro:
@@ -56,12 +55,16 @@ for i in range(1,len(dprofit)):
         count=i+2
 min_mon=dates[count]
 
-
-
-
-print(f"Total =$"+str(profit_total))
-print(f"Avg =$"+str(average_profit))
-print(max_pro)
-print(max_mon)
-print(min_pro)
-print(min_mon)
+#Print out results and create Txt file
+results = f"""Financial Analysis
+------------------------------------
+Total Months: {dmonth}
+Total: $ {profit_total}
+Average Change: $ {average_profit}
+Greatest Increase in Profits: {max_mon} ($ {max_pro})
+Greatest Decrease in Profits: {min_mon} ($ {min_pro})"""
+print (results)
+export_results = ''.join(results)
+txtpath = os.path.join ( "Resources", "PyBank_Summary_Results.txt")
+with open (txtpath,'w') as file: 
+   file.write(export_results) 

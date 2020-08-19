@@ -8,12 +8,12 @@ bankcsvpath = os.path.join( 'Resources', 'budget_data.csv')
 #initialize variable
 dates=[]
 profit=[]
-profit_total=0
 average_profit=0
-dprofit=0
-pro1=0
+dprofit=[]
 pro2=0
 count=0
+max_pro=0
+min_pro=0
 #open database
 with open(bankcsvpath, 'r') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -30,18 +30,38 @@ d1=datetime.strptime(dates[0],'%b-%Y')
 d2=datetime.strptime(dates[len(dates)-1],'%b-%Y')
 dt=relativedelta(d2,d1)
 dmonth=dt.months+dt.years*12+1
-print(dmonth)
-for i in range(0,length-1):
+#print(dmonth)
+
+#Calculate Profit total and average change
+pro1=int(profit[0])
+profit_total=int(profit[0])
+for i in range(1,length-1):
     profit_total+=int(profit[i])
     pro2=int(profit[i])
     if count > 0:
-        dprofit+=pro2-pro1
-        pro1=pro2
-    print(dprofit)
-    print(profit)
+        dprofit.append(pro2-pro1)
+        pro1=pro2    
     count+=1
+average_profit=round(sum(dprofit)/(len(dprofit)+1),2)
 
-average_profit=round(dprofit/dmonth,2)
+#Find max and min months and profit
+for i in range(1,len(dprofit)-1):
+    max_pro=max(dprofit)
+    if dprofit[i] == max_pro:
+        count=i+2
+max_mon=dates[count]
+for i in range(1,len(dprofit)):
+    min_pro=min(dprofit)
+    if dprofit[i] == min_pro:
+        count=i+2
+min_mon=dates[count]
+
+
+
+
 print(f"Total =$"+str(profit_total))
-print(f"Avg =$"+str(dprofit))
-
+print(f"Avg =$"+str(average_profit))
+print(max_pro)
+print(max_mon)
+print(min_pro)
+print(min_mon)

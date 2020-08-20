@@ -65,6 +65,6 @@ Greatest Increase in Profits: {max_mon} ($ {max_pro})
 Greatest Decrease in Profits: {min_mon} ($ {min_pro})"""
 print (results)
 export_results = ''.join(results)
-txtpath = os.path.join ( "Resources", "PyBank_Summary_Results.txt")
+txtpath = os.path.join ( "PyBank_Summary_Results.txt")
 with open (txtpath,'w') as file: 
    file.write(export_results) 

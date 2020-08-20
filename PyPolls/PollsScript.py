@@ -63,6 +63,6 @@ O'Tooley: {per_c4}% ({c4})
 Winner: {winner}"""
 print (results)
 export_results = ''.join(results)
-txtpath = os.path.join ( "Resources", "PyPoll_Summary_Results.txt")
+txtpath = os.path.join ("PyPoll_Summary_Results.txt")
 with open (txtpath,'w') as file: 
    file.write(export_results)
